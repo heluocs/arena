@@ -422,7 +422,7 @@ k8s.io/klog
 # k8s.io/kube-openapi v0.0.0-20200410145947-61e04a5be9a6
 k8s.io/kube-openapi/pkg/common
 k8s.io/kube-openapi/pkg/util/proto
-# k8s.io/kubectl v0.0.0 => k8s.io/kubectl v0.16.9
+# k8s.io/kubectl v0.20.5 => k8s.io/kubectl v0.16.9
 k8s.io/kubectl/pkg/apps
 k8s.io/kubectl/pkg/describe
 k8s.io/kubectl/pkg/describe/versioned
