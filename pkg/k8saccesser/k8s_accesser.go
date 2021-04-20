@@ -26,6 +26,8 @@ import (
 
 	v1alpha12 "github.com/kubeflow/arena/pkg/operators/et-operator/api/v1alpha1"
 	etversioned "github.com/kubeflow/arena/pkg/operators/et-operator/client/clientset/versioned"
+	kubedl_v1alpha1 "github.com/kubeflow/arena/pkg/operators/kubedl-operator/apis/apps/v1alpha1"
+	kubedlversioned "github.com/kubeflow/arena/pkg/operators/kubedl-operator/client/clientset/versioned"
 	"github.com/kubeflow/arena/pkg/operators/mpi-operator/apis/kubeflow/v1alpha1"
 	mpiversioned "github.com/kubeflow/arena/pkg/operators/mpi-operator/client/clientset/versioned"
 	pytorch_v1 "github.com/kubeflow/arena/pkg/operators/pytorch-operator/apis/pytorch/v1"
@@ -48,6 +50,7 @@ func init() {
 	pytorch_v1.AddToScheme(scheme.Scheme)
 	spark_v1beta2.AddToScheme(scheme.Scheme)
 	volcano_v1alpha1.AddToScheme(scheme.Scheme)
+	kubedl_v1alpha1.AddToScheme(scheme.Scheme)
 }
 
 func InitK8sResourceAccesser(config *rest.Config, clientset *kubernetes.Clientset, isDaemonMode bool) error {
@@ -707,6 +710,39 @@ func (k *k8sResourceAccesser) GetEndpoints(namespace, name string) (*v1.Endpoint
 		return nil, err
 	}
 	return endpoints, nil
+}
+
+func (k *k8sResourceAccesser) ListCrons(kubedlClient *kubedlversioned.Clientset, namespace string) ([]*kubedl_v1alpha1.Cron, error) {
+	crons := []*kubedl_v1alpha1.Cron{}
+	cronList := &kubedl_v1alpha1.CronList{}
+	var err error
+	labelSelector, err := parseLabelSelector(fmt.Sprintf("app=%v,release", types.TFTrainingJob))
+	if err != nil {
+		return nil, err
+	}
+	if k.cacheEnabled {
+		err = k.cacheClient.List(
+			context.Background(),
+			cronList,
+			client.InNamespace(namespace),
+			&client.ListOptions{
+				LabelSelector: labelSelector,
+			},
+		)
+	} else {
+		cronList, err = kubedlClient.AppsV1alpha1().Crons(namespace).List(context.TODO(), metav1.ListOptions{})
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	if err != nil {
+		return nil, err
+	}
+	for _, cron := range cronList.Items {
+		crons = append(crons, cron.DeepCopy())
+	}
+	return crons, nil
 }
 
 func parseLabelSelector(item string) (labels.Selector, error) {
