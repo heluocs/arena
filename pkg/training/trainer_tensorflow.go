@@ -299,11 +299,13 @@ func (tt *TensorFlowJobTrainer) GetTrainingJob(name, namespace string) (Training
 	if err != nil {
 		return nil, err
 	}
-	allPods, err := k8saccesser.GetK8sResourceAccesser().ListPods(namespace, fmt.Sprintf("release=%v,app=%v", name, tt.Type()), "", nil)
+	log.Infof("=========== get job pods, tf-job-name=%s app=%s", name, tt.Type())
+	allPods, err := k8saccesser.GetK8sResourceAccesser().ListPods(namespace, fmt.Sprintf("tf-job-name=%v,app=%v", name, tt.Type()), "", nil)
 	// Sort tfjob status conditions and make the newest condition at first
 	if err != nil {
 		return nil, err
 	}
+	log.Infof("========== job pods size: %d", len(allPods))
 	tfjob.Status.Conditions = makeJobStatusSortedByTime(tfjob.Status.Conditions)
 	pods, chiefPod := getPodsOfTFJob(tt, tfjob, allPods)
 

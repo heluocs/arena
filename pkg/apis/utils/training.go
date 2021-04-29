@@ -7,7 +7,7 @@ import (
 
 func IsTensorFlowPod(name, ns string, pod *v1.Pod) bool {
 	// check the release name is matched tfjob name
-	if pod.Labels["release"] != name {
+	if pod.Labels["tf-job-name"] != name {
 		return false
 	}
 	// check the job type is tfjob
