@@ -2,14 +2,25 @@ package utils
 
 import (
 	"github.com/kubeflow/arena/pkg/apis/types"
+	log "github.com/sirupsen/logrus"
 	v1 "k8s.io/api/core/v1"
 )
 
 func IsTensorFlowPod(name, ns string, pod *v1.Pod) bool {
 	// check the release name is matched tfjob name
-	if pod.Labels["tf-job-name"] != name {
-		return false
+	createdBy := pod.Labels["createdBy"]
+	log.Infof("============== IsTensorFlowPod created by: %s", createdBy)
+
+	if createdBy != "" && createdBy == "Cron" {
+		if pod.Labels["tf-job-name"] != name {
+			return false
+		}
+	} else {
+		if pod.Labels["release"] != name {
+			return false
+		}
 	}
+
 	// check the job type is tfjob
 	if pod.Labels["app"] != string(types.TFTrainingJob) {
 		return false
