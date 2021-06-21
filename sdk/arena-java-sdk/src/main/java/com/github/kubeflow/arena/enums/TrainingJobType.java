@@ -3,24 +3,14 @@ package com.github.kubeflow.arena.enums;
 public enum TrainingJobType {
 
     TFTrainingJob("tfjob"),
-
     MPITrainingJob("mpijob"),
-
     PytorchTrainingJob("pytorchjob"),
-
     HorovodTrainingJob("horovodjob"),
-
     VolcanoTrainingJob("volcanojob"),
-
     ETTrainingJob("etjob"),
-
     SparkTrainingJob("sparkjob"),
-
     AllTrainingJob(""),
-
-    UnknownTrainingJob("unknown"),
-
-    ;
+    UnknownTrainingJob("unknown");
 
     private final String otherName;
 

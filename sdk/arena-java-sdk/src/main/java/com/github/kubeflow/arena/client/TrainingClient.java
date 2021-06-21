@@ -31,7 +31,7 @@ public class TrainingClient {
     }
 
     public String submit(TrainingJob job) throws ArenaException,IOException {
-        ArrayList<String> cmds = this.generateCommands("submit");
+        List<String> cmds = this.generateCommands("submit");
         cmds.add(job.getType().alias());
         for(int i = 0;i < job.getArgs().size();i++) {
             cmds.add(job.getArgs().get(i));
@@ -51,7 +51,7 @@ public class TrainingClient {
     }
 
     public TrainingJobInfo[] list(TrainingJobType jobType,Boolean allNamespaces) throws ArenaException,IOException {
-        ArrayList<String> cmds = this.generateCommands("list");
+        List<String> cmds = this.generateCommands("list");
         if (!jobType.equals(TrainingJobType.AllTrainingJob) && !jobType.equals(TrainingJobType.UnknownTrainingJob)){
             cmds.add("--type="+jobType.alias());
         }
@@ -75,7 +75,7 @@ public class TrainingClient {
     }
 
     public TrainingJobInfo get(String jobName,TrainingJobType jobType) throws ArenaException,IOException {
-        ArrayList<String> cmds = this.generateCommands("get");
+        List<String> cmds = this.generateCommands("get");
         if (!jobType.equals(TrainingJobType.AllTrainingJob) && !jobType.equals(TrainingJobType.UnknownTrainingJob)){
             cmds.add("--type="+jobType.alias());
         }
@@ -98,7 +98,7 @@ public class TrainingClient {
     }
 
     public String delete(String jobName,TrainingJobType jobType) throws  IOException,ArenaException {
-        ArrayList<String> cmds = this.generateCommands("delete");
+        List<String> cmds = this.generateCommands("delete");
         if (!jobType.equals(TrainingJobType.AllTrainingJob) && !jobType.equals(TrainingJobType.UnknownTrainingJob)){
             cmds.add("--type="+jobType.alias());
         }
@@ -113,7 +113,7 @@ public class TrainingClient {
     }
 
     public String prune(String duration,Boolean allNamespaces) throws  IOException,ArenaException {
-        ArrayList<String> cmds = this.generateCommands("prune");
+        List<String> cmds = this.generateCommands("prune");
         cmds.add("--since=" + duration);
         if (allNamespaces != null && allNamespaces) {
             cmds.add("-A");
@@ -129,7 +129,7 @@ public class TrainingClient {
 
 
     public String scaleIn(TrainingJob job) throws ArenaException,IOException {
-        ArrayList<String> cmds = this.generateCommands("scalein");
+        List<String> cmds = this.generateCommands("scalein");
         cmds.add(job.getType().alias());
         for(int i = 0;i < job.getArgs().size();i++) {
             cmds.add(job.getArgs().get(i));
@@ -145,7 +145,7 @@ public class TrainingClient {
     }
 
     public String scaleOut(TrainingJob job) throws ArenaException,IOException {
-        ArrayList<String> cmds = this.generateCommands("scaleout");
+        List<String> cmds = this.generateCommands("scaleout");
         cmds.add(job.getType().alias());
         for(int i = 0;i < job.getArgs().size();i++) {
             cmds.add(job.getArgs().get(i));
@@ -160,8 +160,8 @@ public class TrainingClient {
         }
     }
 
-    private ArrayList<String> generateCommands(String... subCommand) {
-        ArrayList<String> cmds = new ArrayList<>();
+    private List<String> generateCommands(String... subCommand) {
+        List<String> cmds = new ArrayList<>();
         cmds.add(arenaBinary);
         for(int i = 0;i < subCommand.length;i++) {
             cmds.add(subCommand[i]);

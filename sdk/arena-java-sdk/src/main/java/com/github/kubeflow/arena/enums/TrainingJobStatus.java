@@ -3,16 +3,10 @@ package com.github.kubeflow.arena.enums;
 public enum TrainingJobStatus {
 
     TrainingJobPending("PENDING"),
-
     TrainingJobRunning("RUNNING"),
-
     TrainingJobSucceeded("SUCCEEDED"),
-
     TrainingJobFailed("FAILED"),
-
-    TrainingJobUnknownStatus(""),
-
-    ;
+    TrainingJobUnknownStatus("");
 
     public final String otherName;
 

@@ -44,8 +44,7 @@ public enum ArenaErrorEnum {
 
     TRAINING_JOB_NOT_FOUND("training_job_not_found","not found training job"),
 
-    INVALID_TRAINING_JOB_TYPE("training_job_type_is_invalid","training job is invalid"),
-    ;
+    INVALID_TRAINING_JOB_TYPE("training_job_type_is_invalid","training job is invalid");
 
     public final String code;
 

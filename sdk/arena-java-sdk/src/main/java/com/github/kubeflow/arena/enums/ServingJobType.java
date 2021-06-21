@@ -3,18 +3,12 @@ package com.github.kubeflow.arena.enums;
 public enum ServingJobType {
 
     TFServingJob("tf","Tensorflow"),
-
+    TritonServingJob("triton", "Triton"),
     TRTServingJob("trt","Tensorrt"),
-
     KFServingJob("kf","KFServing"),
-
     CustomServingJob("custom","Custom"),
-
     AllServingJob("",""),
-
-    UnknownServingJob("unknown","unknown"),
-
-    ;
+    UnknownServingJob("unknown","unknown");
 
     private final String shortHand;
     private final String alias;

@@ -18,7 +18,7 @@ public class ServingClient {
     private String kubeConfig = "";
     private String loglevel = "";
     private String arenaSystemNamespace = "";
-    private static String  arenaBinary = "arena";
+    private static String arenaBinary = "arena";
 
     public ServingClient(String kubeConfig,String namespace,String loglevel,String arenaSystemNamespace) {
         this.namespace = namespace;
@@ -32,7 +32,7 @@ public class ServingClient {
     }
 
     public String submit(ServingJob job) throws ArenaException,IOException {
-        ArrayList<String> cmds = this.generateCommands("serve",job.getType().shortHand());
+        List<String> cmds = this.generateCommands("serve",job.getType().shortHand());
         for(int i = 0;i < job.getArgs().size();i++) {
             cmds.add(job.getArgs().get(i));
         }
@@ -51,7 +51,7 @@ public class ServingClient {
     }
 
     public ServingJobInfo[] list(ServingJobType jobType) throws ArenaException,IOException {
-        ArrayList<String> cmds = this.generateCommands("serve","list");
+        List<String> cmds = this.generateCommands("serve","list");
         if (!jobType.equals(ServingJobType.AllServingJob) && !jobType.equals(ServingJobType.UnknownServingJob)){
             cmds.add("--type="+jobType.shortHand());
         }
@@ -72,7 +72,7 @@ public class ServingClient {
     }
 
     public ServingJobInfo get(String jobName,ServingJobType jobType,String jobVersion) throws ArenaException,IOException {
-        ArrayList<String> cmds = this.generateCommands("serve","get");
+        List<String> cmds = this.generateCommands("serve","get");
         if (!jobType.equals(ServingJobType.AllServingJob) && !jobType.equals(ServingJobType.UnknownServingJob)){
             cmds.add("--type="+jobType.shortHand());
         }
@@ -98,7 +98,7 @@ public class ServingClient {
     }
 
     public String delete(String jobName,ServingJobType jobType,String jobVersion) throws  IOException,ArenaException {
-        ArrayList<String> cmds = this.generateCommands("serve","delete");
+        List<String> cmds = this.generateCommands("serve","delete");
         if (!jobType.equals(ServingJobType.AllServingJob) && !jobType.equals(ServingJobType.UnknownServingJob)){
             cmds.add("--type="+jobType.shortHand());
         }
@@ -115,8 +115,8 @@ public class ServingClient {
         }
     }
 
-    private ArrayList<String> generateCommands(String... subCommand) {
-        ArrayList<String> cmds = new ArrayList<String>();
+    private List<String> generateCommands(String... subCommand) {
+        List<String> cmds = new ArrayList<>();
         cmds.add(arenaBinary);
         for(int i = 0;i < subCommand.length;i++) {
             cmds.add(subCommand[i]);

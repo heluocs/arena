@@ -38,7 +38,7 @@ public class NodeClient {
     }
 
     public NodeSet filter(NodeType nodeType,String... nodeNames) throws ArenaException,IOException {
-        ArrayList<String> cmds = this.generateCommands("top","node","-d","-o","json");
+        List<String> cmds = this.generateCommands("top","node","-d","-o","json");
         if (!nodeType.equals(NodeType.AllNodeType) && !nodeType.equals(NodeType.UnknownNodeType)){
             cmds.add("-m="+nodeType.shortHand());
         }
@@ -78,8 +78,8 @@ public class NodeClient {
     }
 
 
-    private ArrayList<String> generateCommands(String... subCommand) {
-        ArrayList<String> cmds = new ArrayList<String>();
+    private List<String> generateCommands(String... subCommand) {
+        List<String> cmds = new ArrayList<>();
         cmds.add(arenaBinary);
         for(int i = 0;i < subCommand.length;i++) {
             cmds.add(subCommand[i]);
