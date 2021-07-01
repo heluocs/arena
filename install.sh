@@ -274,10 +274,18 @@ function apply_rdma() {
     arena-kubectl apply -f $SCRIPT_DIR/kubernetes-artifacts/rdma/device-plugin.yaml   
 }
 
-function apply_kubedl() {
-  if ! arena-kubectl get serviceaccount --all-namespaces | grep kubedl-operator; then
-    arena-kubectl apply -f $SCRIPT_DIR/kubernetes-artifacts/kubedl/kubedl-crd.yaml
-    arena-kubectl apply -f $SCRIPT_DIR/kubernetes-artifacts/kubedl/kubedl-operator.yaml
+#function apply_kubedl() {
+#  if ! arena-kubectl get serviceaccount --all-namespaces | grep kubedl-operator; then
+#    arena-kubectl apply -f $SCRIPT_DIR/kubernetes-artifacts/kubedl/kubedl-crd.yaml
+#    arena-kubectl apply -f $SCRIPT_DIR/kubernetes-artifacts/kubedl/kubedl-operator.yaml
+#    return
+#  fi
+#}
+
+function apply_cron() {
+  if ! arena-kubectl get serviceaccount --all-namespaces | grep cron-operator; then
+    arena-kubectl apply -f $SCRIPT_DIR/kubernetes-artifacts/cron-operator/cron-crd.yaml
+    arena-kubectl apply -f $SCRIPT_DIR/kubernetes-artifacts/cron-operator/cron-operator.yaml
     return
   fi
 }
@@ -315,7 +323,8 @@ function operators() {
     apply_prometheus
     apply_jobmon
     apply_rdma
-    apply_kubedl
+    apply_cron
+#    apply_kubedl
 }
 
 
